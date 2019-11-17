@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -113,6 +114,73 @@ public class AppTest {
         WebElement error = driver.findElement(By.id("fields_158-error"));
         Assert.assertTrue(error.isDisplayed());
         driver.quit();
+    }
+
+    @Test
+    public void project_created_and_deleted() throws InterruptedException{
+        driver.get(prefix);
+        WebElement searchInput = driver.findElement(By.name("username"));
+        searchInput.sendKeys("rukovoditel");
+        searchInput = driver.findElement(By.name("password"));
+        searchInput.sendKeys("vse456ru");
+        //searchInput.sendKeys(Keys.ENTER);
+        driver.findElement(By.cssSelector(".btn")).click();
+        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
+
+
+        driver.findElement(By.cssSelector(".fa-reorder")).click();
+        Thread.sleep(1000);
+        List<WebElement> elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        //List<WebElement> elements = driver.findElements(By.xpath("//table[@class='table table-striped table-bordered table-hover']/tbody/tr"));
+        int pocetPred = elements.size();
+
+        driver.findElement(By.className("btn-primary")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
+        driver.findElement(By.className("btn-primary-modal-action")).click();
+
+        searchInput = driver.findElement(By.id("fields_158"));
+        searchInput.sendKeys("Trump2020");
+
+        Select select = new Select(driver.findElement(By.id("fields_156")));
+        select.selectByIndex(1);
+
+        driver.findElement(By.id("fields_159")).click();
+        driver.findElement(By.cssSelector("td[class='active day']")).click();
+        driver.findElement(By.className("btn-primary-modal-action")).click();
+        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Tasks"));
+
+        driver.findElement(By.cssSelector(".fa-reorder")).click();
+        Thread.sleep(1000);
+        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        int pocetPo = elements.size();
+        Assert.assertTrue(pocetPred < pocetPo);
+        Assert.assertTrue(pocetPred +1 == pocetPo);
+
+        elements.remove(0);
+
+        WebElement radek = null;
+        int id = 0;
+
+        for (WebElement row : elements)
+        {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.get(4).getText().equals("Trump2020"))
+            {
+                radek = row;
+                id = Integer.parseInt(cells.get(2).getText());
+                List<WebElement> buttony = row.findElements(By.tagName("a"));
+                buttony.get(0).click();
+            }
+        }
+        Assert.assertTrue(radek != null);
+        wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("uniform-delete_confirm")));
+        driver.findElement(By.id("delete_confirm")).click();
+        driver.findElement(By.className("btn-primary-modal-action")).click();
+        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        Assert.assertTrue(!elements.contains(radek));
+        //driver.quit();
     }
 
 
