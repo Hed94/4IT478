@@ -24,10 +24,11 @@ import java.util.UUID;
  */
 public class AppTest {
     private ChromeDriver driver;
+    private String prefix = "https://digitalnizena.cz/rukovoditel/";
 
     @Before
     public void init() {
-        // System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
+         System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
 //        ChromeDriverService service = new ChromeDriverService()
         ChromeOptions cho = new ChromeOptions();
         cho.addArguments("headless");
@@ -39,6 +40,34 @@ public class AppTest {
     public void tearDown() {
 //        driver.close();
     }
+
+
+    @Test
+    public void valid_login() {
+        driver.get(prefix);
+        WebElement searchInput = driver.findElement(By.name("username"));
+        searchInput.sendKeys("rukovoditel");
+        searchInput = driver.findElement(By.name("password"));
+        searchInput.sendKeys("vse456ru");
+        searchInput.sendKeys(Keys.ENTER);
+        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
+        driver.quit();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Test
     public void google1_should_pass() {
