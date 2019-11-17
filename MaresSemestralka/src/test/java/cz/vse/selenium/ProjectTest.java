@@ -83,7 +83,7 @@ public class ProjectTest {
         driver.findElement(By.className("btn-primary-modal-action")).click();
 
 
-        //then
+        //Then
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Tasks"));
         driver.findElement(By.cssSelector(".fa-reorder")).click();
         wait = new WebDriverWait(driver, 1);
