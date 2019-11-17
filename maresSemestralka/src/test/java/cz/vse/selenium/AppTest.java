@@ -67,7 +67,7 @@ public class AppTest {
         WebElement alert = driver.findElement(By.cssSelector(".alert"));
         Assert.assertTrue(!driver.getTitle().startsWith("Rukovoditel | Dashboard"));
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel"));
-        Assert.assertTrue(alert != null);
+        Assert.assertTrue(alert.isDisplayed());
         driver.quit();
     }
 
@@ -93,7 +93,27 @@ public class AppTest {
     }
 
 
+    @Test
+    public void project_not_created() throws InterruptedException{
+        driver.get(prefix);
+        WebElement searchInput = driver.findElement(By.name("username"));
+        searchInput.sendKeys("rukovoditel");
+        searchInput = driver.findElement(By.name("password"));
+        searchInput.sendKeys("vse456ru");
+        //searchInput.sendKeys(Keys.ENTER);
+        driver.findElement(By.cssSelector(".btn")).click();
+        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
 
+
+        driver.findElement(By.cssSelector(".fa-reorder")).click();
+        driver.findElement(By.className("btn-primary")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
+        driver.findElement(By.className("btn-primary-modal-action")).click();
+        WebElement error = driver.findElement(By.id("fields_158-error"));
+        Assert.assertTrue(error.isDisplayed());
+        driver.quit();
+    }
 
 
 
