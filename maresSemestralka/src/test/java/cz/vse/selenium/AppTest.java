@@ -71,7 +71,26 @@ public class AppTest {
         driver.quit();
     }
 
+    @Test
+    public void user_logout() {
+        driver.get(prefix);
+        WebElement searchInput = driver.findElement(By.name("username"));
+        searchInput.sendKeys("rukovoditel");
+        searchInput = driver.findElement(By.name("password"));
+        searchInput.sendKeys("vse456ru");
+        driver.findElement(By.cssSelector(".btn")).click();
+        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
 
+
+        WebElement logoff = driver.findElement(By.cssSelector(".username"));
+        logoff.click();
+        driver.findElement(By.cssSelector("a[href*='logoff']")).click();
+        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel"));
+        Assert.assertTrue(!driver.getTitle().startsWith("Rukovoditel | Dashboard"));
+        WebElement nadpis = driver.findElement(By.cssSelector(".form-title"));
+        Assert.assertTrue(nadpis.getText().equals("Login"));
+        driver.quit();
+    }
 
 
 
