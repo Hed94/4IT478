@@ -49,8 +49,25 @@ public class AppTest {
         searchInput.sendKeys("rukovoditel");
         searchInput = driver.findElement(By.name("password"));
         searchInput.sendKeys("vse456ru");
-        searchInput.sendKeys(Keys.ENTER);
+        //searchInput.sendKeys(Keys.ENTER);
+        driver.findElement(By.cssSelector(".btn")).click();
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
+        driver.quit();
+    }
+
+    @Test
+    public void invalid_login() {
+        driver.get(prefix);
+        WebElement searchInput = driver.findElement(By.name("username"));
+        searchInput.sendKeys("admin");
+        searchInput = driver.findElement(By.name("password"));
+        searchInput.sendKeys("admin");
+        //searchInput.sendKeys(Keys.ENTER);
+        driver.findElement(By.cssSelector(".btn")).click();
+        WebElement alert = driver.findElement(By.cssSelector(".alert"));
+        Assert.assertTrue(!driver.getTitle().startsWith("Rukovoditel | Dashboard"));
+        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel"));
+        Assert.assertTrue(alert != null);
         driver.quit();
     }
 
