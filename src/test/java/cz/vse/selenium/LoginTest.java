@@ -60,7 +60,7 @@ public class LoginTest {
 
         //When
         WebDriverWait wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".username"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".username")));
         driver.findElement(By.cssSelector(".username")).click();
         driver.findElement(By.cssSelector("a[href*='logoff']")).click();
 
