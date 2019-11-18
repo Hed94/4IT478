@@ -29,7 +29,7 @@ public class LoginTest {
 
     @After
     public void tearDown() {
-       driver.close();
+      // driver.close();
     }
 
 
@@ -53,16 +53,16 @@ public class LoginTest {
     }
 
     @Test
-    public void userLogOut() {
+    public void userLogout() {
         //Given
         prihlasSe("rukovoditel","vse456ru");
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
 
         //When
         WebDriverWait wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".dropdown-toggle")));
-        driver.findElement(By.cssSelector(".dropdown-toggle")).click();
-        driver.findElement(By.cssSelector(".dropdown-toggle")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".username")));
+        driver.findElement(By.cssSelector(".username")).click();
+        driver.findElement(By.cssSelector(".username")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href*='logoff']")));
         driver.findElement(By.cssSelector("a[href*='logoff']")).click();
 
