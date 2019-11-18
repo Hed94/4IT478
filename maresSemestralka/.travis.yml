@@ -11,7 +11,7 @@ before_install:
   #- wget https://chromedriver.storage.googleapis.com/79.0.3945.16/chromedriver_linux64.zip
   # https://chromedriver.storage.googleapis.com/79.0.3945.16/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip
-  # - chmod 777 /home/travis/build/pavelgloss/seleniumexample/chromedriver
+  # - chmod 777 /home/travis/build/Hed94/4IT478/chromedriver
   - "ls -la"
   # - wget https://selenium-release.storage.googleapis.com/3.13/selenium-server-standalone-3.13.0.jar
   # start your web application and listen on `localhost`
