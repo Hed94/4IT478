@@ -120,10 +120,11 @@ public class ProjectTest {
         Assert.assertTrue(radek != null);
 
         // Smazání a kontrola že už tam neni
-       // wait = new WebDriverWait(driver, 2);
+        wait = new WebDriverWait(driver, 2);
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("uniform-delete_confirm")));
         //driver.findElement(By.id("delete_confirm")).click();
-        driver.findElement(By.className("btn-primary-modal-action")).click();
+        // driver.findElement(By.className("btn-primary-modal-action")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action"))).click();
         elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
         Assert.assertTrue(!elements.contains(radek));
     }
