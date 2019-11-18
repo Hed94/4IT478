@@ -30,7 +30,7 @@ public class LoginTest {
 
     @After
     public void tearDown() {
-      // driver.close();
+       driver.close();
     }
 
 
