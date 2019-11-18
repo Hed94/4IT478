@@ -63,6 +63,7 @@ public class LoginTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".dropdown-toggle")));
         driver.findElement(By.cssSelector(".dropdown-toggle")).click();
         driver.findElement(By.cssSelector(".dropdown-toggle")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href*='logoff']")));
         driver.findElement(By.cssSelector("a[href*='logoff']")).click();
 
         //Then
