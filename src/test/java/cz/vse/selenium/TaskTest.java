@@ -27,10 +27,10 @@ public class TaskTest {
     @Before
     public void init() {
         //System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
-        //driver = new ChromeDriver();
-        ChromeOptions cho = new ChromeOptions();
-        cho.addArguments("headless");
-        driver = new ChromeDriver(cho);
+        driver = new ChromeDriver();
+        //ChromeOptions cho = new ChromeOptions();
+        //cho.addArguments("headless");
+        //driver = new ChromeDriver(cho);
 
     }
 
@@ -41,7 +41,7 @@ public class TaskTest {
 
 
     @Test
-    public void task_Created() throws ParseException {
+    public void taskCreated() throws ParseException {
         //Given
         prihlasSe("rukovoditel","vse456ru");
         vytvorProjekt("Trump2020");
@@ -117,7 +117,7 @@ public class TaskTest {
     }
 
     @Test
-    public void tasks_Created() {
+    public void sevenTasksCreated() {
         //Given
         prihlasSe("rukovoditel","vse456ru");
         vytvorProjekt("Trump2020");

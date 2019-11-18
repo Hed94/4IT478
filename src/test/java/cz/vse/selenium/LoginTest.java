@@ -19,10 +19,10 @@ public class LoginTest {
     @Before
     public void init() {
         //System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
-        //driver = new ChromeDriver();
-        ChromeOptions cho = new ChromeOptions();
-        cho.addArguments("headless");
-        driver = new ChromeDriver(cho);
+        driver = new ChromeDriver();
+        //ChromeOptions cho = new ChromeOptions();
+        //cho.addArguments("headless");
+        //driver = new ChromeDriver(cho);
     }
 
     @After
@@ -32,7 +32,7 @@ public class LoginTest {
 
 
     @Test
-    public void valid_login() {
+    public void validLogin() {
         //Given + When
         prihlasSe("rukovoditel","vse456ru");
         //Then
@@ -40,7 +40,7 @@ public class LoginTest {
     }
 
     @Test
-    public void invalid_login() {
+    public void invalidLogin() {
         //Given + When
         prihlasSe("admin","admin");
         //Then
@@ -51,7 +51,7 @@ public class LoginTest {
     }
 
     @Test
-    public void user_logout() {
+    public void userLogout() {
         //Given
         prihlasSe("rukovoditel","vse456ru");
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));

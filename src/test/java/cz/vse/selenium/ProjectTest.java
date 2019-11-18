@@ -25,10 +25,10 @@ public class ProjectTest {
     @Before
     public void init() {
         //System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
-        //driver = new ChromeDriver();
-        ChromeOptions cho = new ChromeOptions();
-        cho.addArguments("headless");
-        driver = new ChromeDriver(cho);
+        driver = new ChromeDriver();
+        //ChromeOptions cho = new ChromeOptions();
+        //cho.addArguments("headless");
+        //driver = new ChromeDriver(cho);
 
     }
 
@@ -39,7 +39,7 @@ public class ProjectTest {
 
 
     @Test
-    public void project_not_created() throws InterruptedException{
+    public void projectNotCreated() throws InterruptedException{
         //Given
         prihlasSe("rukovoditel","vse456ru");
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
@@ -57,7 +57,7 @@ public class ProjectTest {
     }
 
     @Test
-    public void project_created_and_deleted() throws InterruptedException{
+    public void projectCreatedDeleted() throws InterruptedException{
         //Given
         prihlasSe("rukovoditel","vse456ru");
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
