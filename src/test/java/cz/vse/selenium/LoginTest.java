@@ -59,11 +59,9 @@ public class LoginTest {
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
 
         //When
-        WebDriverWait wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".username")));
         driver.findElement(By.cssSelector(".username")).click();
         driver.findElement(By.cssSelector(".username")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href*='logoff']")));
+        WebDriverWait wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href*='logoff']")));
         driver.findElement(By.cssSelector("a[href*='logoff']")).click();
 
         //Then
