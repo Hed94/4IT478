@@ -84,12 +84,11 @@ public class TaskTest {
 
         // Kontrola desc - Kontaktovat všechny sponzory a vybrat od nich peníze na kampaň
         WebElement desc = driver.findElement(By.className("fieldtype_textarea_wysiwyg"));
-        System.out.println(desc.getText());
         Assert.assertTrue(desc.getText().equals("Kontaktovat všechny sponzory a vybrat od nich peníze na kampaň"));
 
         // Kontrola datumu
         cells = elements.get(1).findElements(By.tagName("td"));
-        Date datum =new SimpleDateFormat("MM/dd/yyyy").parse(cells.get(0).getText().substring(0, 10));
+        Date datum = new SimpleDateFormat("MM/dd/yyyy").parse(cells.get(0).getText().substring(0, 10));
         Date sysdate = new Date();
         Assert.assertTrue(!elements.contains(datum.equals(sysdate)));
 
