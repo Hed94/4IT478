@@ -25,6 +25,7 @@ public class LoginTest {
         ChromeOptions cho = new ChromeOptions();
         cho.addArguments("headless");
         driver = new ChromeDriver(cho);
+        driver.manage().window().maximize();
     }
 
     @After

@@ -31,6 +31,7 @@ public class TaskTest {
         ChromeOptions cho = new ChromeOptions();
         cho.addArguments("headless");
         driver = new ChromeDriver(cho);
+        driver.manage().window().maximize();
 
     }
 
@@ -195,11 +196,9 @@ public class TaskTest {
     // Metoda vytvoří projekt
     public void vytvorProjekt(String nazev)
     {
-        WebDriverWait wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='fa fa-reorder']"))).click();
-        //driver.findElement(By.cssSelector(".fareorder-")).click();
+        driver.findElement(By.cssSelector(".fa-reorder")).click();
         driver.findElement(By.className("btn-primary")).click();
-        wait = new WebDriverWait(driver, 2);
+        WebDriverWait wait = new WebDriverWait(driver, 2);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
         driver.findElement(By.className("btn-primary-modal-action")).click();
         WebElement searchInput = driver.findElement(By.id("fields_158"));
