@@ -30,6 +30,10 @@ public class TaskTest {
         //driver = new ChromeDriver();
         ChromeOptions cho = new ChromeOptions();
         cho.addArguments("--headless");
+        cho.addArguments("start-maximized");
+        cho.addArguments("window-size=1200,1100");
+        cho.addArguments("--disable-gpu");
+        cho.addArguments("--disable-extensions");
         driver = new ChromeDriver(cho);
         driver.manage().window().maximize();
 
