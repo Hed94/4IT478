@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Unit test for simple App.
@@ -51,14 +53,15 @@ public class LoginTest {
     }
 
     @Test
-    public void userLogout() {
+    public void userLogOut() {
         //Given
         prihlasSe("rukovoditel","vse456ru");
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
 
         //When
-        WebElement logoff = driver.findElement(By.cssSelector(".username"));
-        logoff.click();
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".username"));
+        driver.findElement(By.cssSelector(".username")).click();
         driver.findElement(By.cssSelector("a[href*='logoff']")).click();
 
         //Then
