@@ -43,15 +43,13 @@ public class TaskTest {
         vytvorProjekt("Trump2020");
 
         //When
+        // Vytvoření tasku
         driver.findElement(By.className("btn-primary")).click();
         WebDriverWait wait = new WebDriverWait(driver, 2);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fields_168")));
         WebElement searchInput = driver.findElement(By.id("fields_168"));
         searchInput.sendKeys("Výběr peněz od sponzorů");
-        String title="Rich Text Editor, fields_172";
-        //searchInput = driver.findElement(By.cssSelector("[title^='"+title+"']"));
-        //searchInput = driver.findElement(By.className("cke_show_borders"));
-
+        // Vyplnění descriptového okna při tvoření tasku
         driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
         driver.findElement(By.tagName("body")).sendKeys("Kontaktovat všechny sponzory a vybrat od nich peníze na kampaň");
         driver.switchTo().defaultContent();
@@ -121,20 +119,61 @@ public class TaskTest {
         vytvorProjekt("Trump2020");
 
         //When
-        driver.findElement(By.className("btn-primary")).click();
-        WebDriverWait wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fields_168")));
-        WebElement searchInput = driver.findElement(By.id("fields_168"));
-        searchInput.sendKeys("Výběr peněz od sponzorů");
-        String title="Rich Text Editor, fields_172";
-        //searchInput = driver.findElement(By.cssSelector("[title^='"+title+"']"));
-        //searchInput = driver.findElement(By.className("cke_show_borders"));
+        for(int i = 0;i<7;i++)
+        {
+            driver.findElement(By.className("btn-primary")).click();
+            WebDriverWait wait = new WebDriverWait(driver, 2);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fields_168")));
+            WebElement searchInput = driver.findElement(By.id("fields_168"));
+            searchInput.sendKeys("Výběr peněz od sponzorů");
+            Select select = new Select(driver.findElement(By.id("fields_169")));
+            select.selectByIndex(i);
+            driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+            driver.findElement(By.tagName("body")).sendKeys("Kontaktovat všechny sponzory a vybrat od nich peníze na kampaň");
+            driver.switchTo().defaultContent();
+            driver.findElement(By.className("btn-primary-modal-action")).click();
+        }
 
-        driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
-        driver.findElement(By.tagName("body")).sendKeys("Kontaktovat všechny sponzory a vybrat od nich peníze na kampaň");
-        driver.switchTo().defaultContent();
+        //Then
+        // Kontrola že se zobrazují jen 3 tasky
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
+        List<WebElement> elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        Assert.assertTrue(elements.size() == 4); // 4 protože nadpis je taky řádek
+
+        // Změna filtrů na - New / Waiting
+        driver.findElement(By.className("filters-preview-condition-include")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='chosen-choices'] a")));
+        List<WebElement> filtry = driver.findElements(By.cssSelector("[class='chosen-choices'] a"));
+        filtry.get(1).click();
         driver.findElement(By.className("btn-primary-modal-action")).click();
 
+        // Kontrola že se zobrazují jen 2 tasky
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
+        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        Assert.assertTrue(elements.size() == 3); // 3 protože nadpis je taky řádek
+
+        // Smazání všech filtrů
+        driver.findElement(By.className("filters-preview-condition-include")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='chosen-choices'] a")));
+        filtry = driver.findElements(By.cssSelector("[class='chosen-choices'] a"));
+        filtry.get(1).click();
+        filtry.get(0).click();
+        driver.findElement(By.className("btn-primary-modal-action")).click();
+
+        // Kontrola že se zobrazuje všech 7 tasků
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
+        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        Assert.assertTrue(elements.size() == 8); // 8 protože nadpis je taky řádek
+
+        // Vymazání všech tasků
+        driver.findElement(By.id("select_all_items")).click();
+        driver.findElement(By.cssSelector("[class='btn btn-default dropdown-toggle']")).click();
+        driver.findElement(By.cssSelector("[class='btn btn-default dropdown-toggle']")).click(); // dvojklik
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Delete")));
+        driver.findElement(By.linkText("Delete")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
+        driver.findElement(By.className("btn-primary-modal-action")).click();
     }
 
     // Metoda kteřá řeší přihlášení
