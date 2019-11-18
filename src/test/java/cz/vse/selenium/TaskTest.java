@@ -118,6 +118,33 @@ public class TaskTest {
         wait = new WebDriverWait(driver, 2);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
         driver.findElement(By.className("btn-primary-modal-action")).click();
+
+        //Smazání projektu
+        driver.findElement(By.cssSelector(".fa-reorder")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
+        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+
+        //Pomocné vymazání nic neříkajícího prvního řádku tabulky
+        elements.remove(0);
+        // Deklarace kontrolní proměné
+        WebElement radek = null;
+
+        // Cyklus prochází všechny řádky a jejich políčka
+        for (WebElement row : elements)
+        {
+            cells = row.findElements(By.tagName("td"));
+            if (cells.get(4).getText().equals("Trump2020"))
+            {
+                radek = row;
+                List<WebElement> buttony = row.findElements(By.tagName("a"));
+                buttony.get(0).click();
+            }
+        }
+        // Smazání a kontrola že už tam neni
+        wait = new WebDriverWait(driver, 3);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action"))).click();
+        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        Assert.assertTrue(!elements.contains(radek));
     }
 
     @Test
@@ -182,6 +209,33 @@ public class TaskTest {
         driver.findElement(By.linkText("Delete")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
         driver.findElement(By.className("btn-primary-modal-action")).click();
+
+        //Smazání projektu
+        driver.findElement(By.cssSelector(".fa-reorder")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
+        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+
+        //Pomocné vymazání nic neříkajícího prvního řádku tabulky
+        elements.remove(0);
+        // Deklarace kontrolní proměné
+        WebElement radek = null;
+
+        // Cyklus prochází všechny řádky a jejich políčka
+        for (WebElement row : elements)
+        {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.get(4).getText().equals("Trump2020"))
+            {
+                radek = row;
+                List<WebElement> buttony = row.findElements(By.tagName("a"));
+                buttony.get(0).click();
+            }
+        }
+        // Smazání a kontrola že už tam neni
+        wait = new WebDriverWait(driver, 3);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action"))).click();
+        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        Assert.assertTrue(!elements.contains(radek));
     }
 
     // Metoda kteřá řeší přihlášení
