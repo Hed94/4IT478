@@ -29,7 +29,7 @@ public class TaskTest {
         //System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
         //driver = new ChromeDriver();
         ChromeOptions cho = new ChromeOptions();
-        cho.addArguments("headless");
+        cho.addArguments("--headless");
         driver = new ChromeDriver(cho);
         driver.manage().window().maximize();
 
