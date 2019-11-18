@@ -195,9 +195,11 @@ public class TaskTest {
     // Metoda vytvoří projekt
     public void vytvorProjekt(String nazev)
     {
-        driver.findElement(By.cssSelector(".fa-reorder")).click();
-        driver.findElement(By.className("btn-primary")).click();
         WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fareorder-"))).click();
+        driver.findElement(By.cssSelector(".fareorder-")).click();
+        driver.findElement(By.className("btn-primary")).click();
+        wait = new WebDriverWait(driver, 2);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
         driver.findElement(By.className("btn-primary-modal-action")).click();
         WebElement searchInput = driver.findElement(By.id("fields_158"));
