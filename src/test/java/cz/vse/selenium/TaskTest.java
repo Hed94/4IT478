@@ -196,8 +196,8 @@ public class TaskTest {
     public void vytvorProjekt(String nazev)
     {
         WebDriverWait wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fareorder-"))).click();
-        driver.findElement(By.cssSelector(".fareorder-")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='fa fa-reorder']"))).click();
+        //driver.findElement(By.cssSelector(".fareorder-")).click();
         driver.findElement(By.className("btn-primary")).click();
         wait = new WebDriverWait(driver, 2);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
