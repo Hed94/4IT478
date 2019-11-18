@@ -18,8 +18,8 @@ public class LoginTest {
 
     @Before
     public void init() {
-        //System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
-        //driver = new ChromeDriver();
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
+        driver = new ChromeDriver();
         ChromeOptions cho = new ChromeOptions();
         cho.addArguments("headless");
         driver = new ChromeDriver(cho);
