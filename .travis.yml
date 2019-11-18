@@ -15,7 +15,7 @@ before_install:
   - "ls -la"
   # - wget https://selenium-release.storage.googleapis.com/3.13/selenium-server-standalone-3.13.0.jar
   # start your web application and listen on `localhost`
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 start-maximized http://localhost &
   #  - xvfb-run java -Dwebdriver.chrome.driver=/home/travis/build/pavelgloss/seleniumexample/chromedriver -jar selenium-server-standalone-3.13.0.jar
   - echo $TRAVIS_COMMIT
   - echo $TRAVIS_TAG
