@@ -42,7 +42,7 @@ public class LoginTest {
     @Test
     public void validLogin() {
         //Given + When
-        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
+        GeneralTestMethods.login("rukovoditel","vse456ru",driver);
         //Then
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
     }
@@ -53,7 +53,7 @@ public class LoginTest {
     @Test
     public void invalidLogin() {
         //Given + When
-        GeneralTestMethods.prihlaseni("Donald","Trump",driver);
+        GeneralTestMethods.login("Donald","Trump",driver);
         //Then
         WebElement alert = driver.findElement(By.cssSelector(".alert"));
         Assert.assertTrue(!driver.getTitle().startsWith("Rukovoditel | Dashboard"));
@@ -64,7 +64,7 @@ public class LoginTest {
     @Test
     public void userLogout() {
         //Given
-        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
+        GeneralTestMethods.login("rukovoditel","vse456ru",driver);
 
         //When
         driver.findElement(By.cssSelector(".username")).click();

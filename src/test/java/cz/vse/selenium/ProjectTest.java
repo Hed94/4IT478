@@ -44,12 +44,12 @@ public class ProjectTest {
     @Test
     public void projectNotCreated() throws InterruptedException{
         //Given
-        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
+        GeneralTestMethods.login("rukovoditel","vse456ru",driver);
 
         //When
         driver.findElement(By.cssSelector("li:nth-child(4) .title:nth-child(2)")).click();
         driver.findElement(By.className("btn-primary")).click();
-        GeneralTestMethods.cekejClassName(2,"btn-primary-modal-action",driver);
+        GeneralTestMethods.waitClassName(2,"btn-primary-modal-action",driver);
         driver.findElement(By.className("btn-primary-modal-action")).click();
 
         //Then
@@ -59,7 +59,7 @@ public class ProjectTest {
     @Test
     public void projectCreatedDeleted() throws InterruptedException{
         //Given
-        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
+        GeneralTestMethods.login("rukovoditel","vse456ru",driver);
 
         //When
         GeneralTestMethods.novyProjekt("Trump2020",driver);
@@ -67,7 +67,7 @@ public class ProjectTest {
 
         //Then
         driver.findElement(By.cssSelector("li:nth-child(4) .title:nth-child(2)")).click();
-        GeneralTestMethods.cekejCssSelector(3,"[class='table table-striped table-bordered table-hover'] tr",driver);
+        GeneralTestMethods.waitCssSelector(3,"[class='table table-striped table-bordered table-hover'] tr",driver);
         List<WebElement> tabulka = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
         tabulka.remove(0);
         WebElement element = null;
@@ -83,7 +83,7 @@ public class ProjectTest {
             }
         }
         Assert.assertTrue(element != null);
-        GeneralTestMethods.cekejClassName(2,"btn-primary-modal-action",driver);
+        GeneralTestMethods.waitClassName(2,"btn-primary-modal-action",driver);
         driver.findElement(By.className("btn-primary-modal-action")).click();
         tabulka = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
         Assert.assertTrue(!tabulka.contains(element));

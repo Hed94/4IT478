@@ -45,24 +45,24 @@ public class TaskTest {
     @Test
     public void taskCreated() throws ParseException {
         //Given
-        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
+        GeneralTestMethods.login("rukovoditel","vse456ru",driver);
         GeneralTestMethods.novyProjekt("Trump2020",driver);
 
         //When
         // Vytvoření tasku
         driver.findElement(By.className("btn-primary")).click();
-        GeneralTestMethods.cekejID(3,"fields_168",driver);
+        GeneralTestMethods.waitID(3,"fields_168",driver);
         driver.findElement(By.id("fields_168")).sendKeys("Testovací task");
         driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
         driver.findElement(By.tagName("body")).sendKeys("Testovací popis tasku");
         driver.switchTo().defaultContent();
         driver.findElement(By.className("btn-primary-modal-action")).click();
-        GeneralTestMethods.cekejCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
+        GeneralTestMethods.waitCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
         driver.findElement(By.cssSelector(".fa-info")).click();
 
 
         //Then
-        GeneralTestMethods.cekejCssSelector(2,"[class='table table-bordered table-hover table-item-details'] tr",driver);
+        GeneralTestMethods.waitCssSelector(2,"[class='table table-bordered table-hover table-item-details'] tr",driver);
         Assert.assertTrue(driver.findElement(By.className("caption")).getText().equals("Testovací task"));
         Assert.assertTrue(driver.findElement(By.className("fieldtype_textarea_wysiwyg")).getText().equals("Testovací popis tasku"));
         Date date = new SimpleDateFormat("MM/dd/yyyy").parse(driver.findElements(By.cssSelector(".form-group-165 > td")).get(0).getText().substring(0, 10));
@@ -71,23 +71,23 @@ public class TaskTest {
         Assert.assertTrue(driver.findElements(By.cssSelector(".form-group-169 div")).get(0).getText().equals("New"));
         Assert.assertTrue(driver.findElements(By.cssSelector(".form-group-170 div")).get(0).getText().equals("Medium"));
         driver.executeScript("window.history.go(-1)");
-        GeneralTestMethods.cekejCssSelector(2,".btn-xs > .fa-trash-o",driver);
+        GeneralTestMethods.waitCssSelector(2,".btn-xs > .fa-trash-o",driver);
         driver.findElements(By.cssSelector(".btn-xs > .fa-trash-o")).get(0).click();
-        GeneralTestMethods.cekejClassName(2,"btn-primary-modal-action",driver);
+        GeneralTestMethods.waitClassName(2,"btn-primary-modal-action",driver);
         driver.findElement(By.className("btn-primary-modal-action")).click();
     }
 
     @Test
     public void sevenTasksCreated() {
         //Given
-        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
+        GeneralTestMethods.login("rukovoditel","vse456ru",driver);
         GeneralTestMethods.novyProjekt("Trump2020",driver);
 
         //When
         for(int i = 0;i<7;i++)
         {
             driver.findElement(By.className("btn-primary")).click();
-            GeneralTestMethods.cekejID(3,"fields_168",driver);
+            GeneralTestMethods.waitID(3,"fields_168",driver);
             driver.findElement(By.id("fields_168")).sendKeys("Testovací task");
             Select vyber = new Select(driver.findElement(By.id("fields_169")));
             vyber.selectByIndex(i);
@@ -98,27 +98,27 @@ public class TaskTest {
         }
 
         //Then
-        GeneralTestMethods.cekejCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
+        GeneralTestMethods.waitCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
         List<WebElement> elementy = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
         elementy.remove(0);
         Assert.assertTrue(elementy.size() == 3);
         driver.findElement(By.className("filters-preview-condition-include")).click();
-        GeneralTestMethods.cekejCssSelector(2,"[class='chosen-choices'] a",driver);
+        GeneralTestMethods.waitCssSelector(2,"[class='chosen-choices'] a",driver);
         driver.findElements(By.cssSelector("[class='chosen-choices'] a")).get(1).click();
         driver.findElement(By.className("btn-primary-modal-action")).click();
-        GeneralTestMethods.cekejCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
+        GeneralTestMethods.waitCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
         elementy = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
         elementy.remove(0);
         Assert.assertTrue(elementy.size() == 2);
         driver.findElement(By.cssSelector("a:nth-child(2) > .fa-trash-o")).click();
-        GeneralTestMethods.cekejCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
+        GeneralTestMethods.waitCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
         Assert.assertTrue(driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")).size() == 8);
         driver.findElement(By.id("select_all_items")).click();
         driver.findElement(By.cssSelector("[class='btn btn-default dropdown-toggle']")).click();
         driver.findElement(By.cssSelector("[class='btn btn-default dropdown-toggle']")).click();
-        GeneralTestMethods.cekejLinkText(2,"Delete",driver);
+        GeneralTestMethods.waitLinkText(2,"Delete",driver);
         driver.findElement(By.linkText("Delete")).click();
-        GeneralTestMethods.cekejClassName(2,"btn-primary-modal-action",driver);
+        GeneralTestMethods.waitClassName(2,"btn-primary-modal-action",driver);
         driver.findElement(By.className("btn-primary-modal-action")).click();
     }
 }

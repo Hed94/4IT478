@@ -18,7 +18,7 @@ public class GeneralTestMethods
     /**
      * Metoda similuje čekání podle iD
      */
-    public static void cekejID(int delka, String predmet, ChromeDriver driver)
+    public static void waitID(int delka, String predmet, ChromeDriver driver)
     {
         WebDriverWait wait = new WebDriverWait(driver, delka);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(predmet)));
@@ -27,7 +27,7 @@ public class GeneralTestMethods
     /**
      * Metoda similuje čekání podle ClassName
      */
-    public static void cekejClassName(int delka, String predmet, ChromeDriver driver)
+    public static void waitClassName(int delka, String predmet, ChromeDriver driver)
     {
         WebDriverWait wait = new WebDriverWait(driver, delka);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className(predmet)));
@@ -35,7 +35,7 @@ public class GeneralTestMethods
     /**
      * Metoda similuje čekání podle CssSelektoru
      */
-    public static  void cekejCssSelector(int delka,String predmet, ChromeDriver driver)
+    public static  void waitCssSelector(int delka, String predmet, ChromeDriver driver)
     {
         WebDriverWait wait = new WebDriverWait(driver, delka);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(predmet)));
@@ -43,7 +43,7 @@ public class GeneralTestMethods
     /**
      * Metoda similuje čekání podle linktextu
      */
-    public static  void cekejLinkText(int delka,String predmet, ChromeDriver driver)
+    public static  void waitLinkText(int delka, String predmet, ChromeDriver driver)
     {
         WebDriverWait wait = new WebDriverWait(driver, delka);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(predmet)));
@@ -51,7 +51,7 @@ public class GeneralTestMethods
     /**
      * Metoda přihlašuje
      */
-    public static void prihlaseni(String user,String pass, ChromeDriver driver)
+    public static void login(String user, String pass, ChromeDriver driver)
     {
         driver.get(adresa);
         driver.findElement(By.name("username")).sendKeys(user);
@@ -65,7 +65,7 @@ public class GeneralTestMethods
     {
         driver.findElement(By.cssSelector("li:nth-child(4) .title:nth-child(2)")).click();
         driver.findElement(By.className("btn-primary")).click();
-        cekejClassName(2,"btn-primary-modal-action",driver);
+        waitClassName(2,"btn-primary-modal-action",driver);
         driver.findElement(By.id("fields_158")).sendKeys(nazev);
         Select vyber = new Select(driver.findElement(By.id("fields_156")));
         vyber.selectByIndex(1);
