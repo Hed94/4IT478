@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * Třída obsahuje společné testovací metody, které se objevují napříč celým projektem
  */
 
-public class TestovaciMetody
+public class GeneralTestMethods
 {
     // Fixní adresa
     private final static String adresa = "https://digitalnizena.cz/rukovoditel/";

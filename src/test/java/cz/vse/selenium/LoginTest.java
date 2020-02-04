@@ -16,7 +16,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class LoginTest {
     private ChromeDriver driver;
-    private String prefix = "https://digitalnizena.cz/rukovoditel/";
 
     @Before
     public void init() {
@@ -37,19 +36,24 @@ public class LoginTest {
        driver.close();
     }
 
-
+    /**
+     * Testování úspěšného scénáře přihlášení
+     */
     @Test
     public void validLogin() {
         //Given + When
-        prihlasSe("rukovoditel","vse456ru");
+        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
         //Then
         Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
     }
-
+    /**
+     * Testování neúspěšného scénáře přihlašení
+     * zadány špatné přihlašovací údaje
+     */
     @Test
     public void invalidLogin() {
         //Given + When
-        prihlasSe("admin","admin");
+        GeneralTestMethods.prihlaseni("Donald","Trump",driver);
         //Then
         WebElement alert = driver.findElement(By.cssSelector(".alert"));
         Assert.assertTrue(!driver.getTitle().startsWith("Rukovoditel | Dashboard"));
@@ -60,31 +64,16 @@ public class LoginTest {
     @Test
     public void userLogout() {
         //Given
-        prihlasSe("rukovoditel","vse456ru");
-        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel | Dashboard"));
+        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
 
         //When
         driver.findElement(By.cssSelector(".username")).click();
         driver.findElement(By.cssSelector(".username")).click();
-        WebDriverWait wait = new WebDriverWait(driver, 1);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href*='logoff']")));
-        driver.findElement(By.cssSelector("a[href*='logoff']")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Logoff"))).click();
 
         //Then
-        Assert.assertTrue(driver.getTitle().startsWith("Rukovoditel"));
-        Assert.assertTrue(!driver.getTitle().startsWith("Rukovoditel | Dashboard"));
-        WebElement nadpis = driver.findElement(By.cssSelector(".form-title"));
-        Assert.assertTrue(nadpis.getText().equals("Login"));
-    }
-
-    public void prihlasSe(String jmeno,String heslo)
-    {
-        driver.get(prefix);
-        WebElement searchInput = driver.findElement(By.name("username"));
-        searchInput.sendKeys(jmeno);
-        searchInput = driver.findElement(By.name("password"));
-        searchInput.sendKeys(heslo);
-        //searchInput.sendKeys(Keys.ENTER);
-        driver.findElement(By.cssSelector(".btn")).click();
+        Assert.assertTrue(!driver.getTitle().contains("Dashboard"));
+        Assert.assertTrue(driver.findElement(By.cssSelector(".form-title")).getText().equals("Login"));
     }
 }

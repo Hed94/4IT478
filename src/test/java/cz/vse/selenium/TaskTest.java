@@ -8,9 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +20,6 @@ import java.util.List;
  */
 public class TaskTest {
     private ChromeDriver driver;
-    private String prefix = "https://digitalnizena.cz/rukovoditel/";
 
     @Before
     public void init() {
@@ -48,222 +45,80 @@ public class TaskTest {
     @Test
     public void taskCreated() throws ParseException {
         //Given
-        prihlasSe("rukovoditel","vse456ru");
-        vytvorProjekt("Trump2020");
+        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
+        GeneralTestMethods.novyProjekt("Trump2020",driver);
 
         //When
         // Vytvoření tasku
         driver.findElement(By.className("btn-primary")).click();
-        WebDriverWait wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fields_168")));
-        WebElement searchInput = driver.findElement(By.id("fields_168"));
-        searchInput.sendKeys("Výběr peněz od sponzorů");
-        // Vyplnění descriptového okna při tvoření tasku
+        GeneralTestMethods.cekejID(3,"fields_168",driver);
+        driver.findElement(By.id("fields_168")).sendKeys("Testovací task");
         driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
-        driver.findElement(By.tagName("body")).sendKeys("Kontaktovat všechny sponzory a vybrat od nich peníze na kampaň");
+        driver.findElement(By.tagName("body")).sendKeys("Testovací popis tasku");
         driver.switchTo().defaultContent();
         driver.findElement(By.className("btn-primary-modal-action")).click();
-
-
-        wait = new WebDriverWait(driver, 1);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
-        List<WebElement> elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
-        List<WebElement> cells = elements.get(1).findElements(By.tagName("td"));
-        List<WebElement> obsah = cells.get(1).findElements(By.tagName("a"));
-        obsah.get(2).click();
+        GeneralTestMethods.cekejCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
+        driver.findElement(By.cssSelector(".fa-info")).click();
 
 
         //Then
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-bordered table-hover table-item-details'] tr")));
-        elements = driver.findElements(By.cssSelector("[class='table table-bordered table-hover table-item-details'] tr"));
-
-
-        // Kontrola názvu - Výběr peněz od sponzorů
-        WebElement nazev = driver.findElement(By.className("caption"));
-        Assert.assertTrue(nazev.getText().equals("Výběr peněz od sponzorů"));
-
-        // Kontrola desc - Kontaktovat všechny sponzory a vybrat od nich peníze na kampaň
-        WebElement desc = driver.findElement(By.className("fieldtype_textarea_wysiwyg"));
-        Assert.assertTrue(desc.getText().equals("Kontaktovat všechny sponzory a vybrat od nich peníze na kampaň"));
-
-        // Kontrola datumu
-        cells = elements.get(1).findElements(By.tagName("td"));
-        Date datum = new SimpleDateFormat("MM/dd/yyyy").parse(cells.get(0).getText().substring(0, 10));
-        Date sysdate = new Date();
-        Assert.assertTrue(!elements.contains(datum.equals(sysdate)));
-
-        // Kontrola typu - Task
-        cells = elements.get(3).findElements(By.tagName("td"));
-        obsah = cells.get(0).findElements(By.tagName("div"));
-        Assert.assertTrue(obsah.get(0).getText().equals("Task"));
-
-        // Kontrola status - New
-        cells = elements.get(4).findElements(By.tagName("td"));
-        obsah = cells.get(0).findElements(By.tagName("div"));
-        Assert.assertTrue(obsah.get(0).getText().equals("New"));
-
-        // Kontrola priority - Medium
-        cells = elements.get(5).findElements(By.tagName("td"));
-        obsah = cells.get(0).findElements(By.tagName("div"));
-        Assert.assertTrue(obsah.get(0).getText().equals("Medium"));
-
-        //Smazání tasku
+        GeneralTestMethods.cekejCssSelector(2,"[class='table table-bordered table-hover table-item-details'] tr",driver);
+        Assert.assertTrue(driver.findElement(By.className("caption")).getText().equals("Testovací task"));
+        Assert.assertTrue(driver.findElement(By.className("fieldtype_textarea_wysiwyg")).getText().equals("Testovací popis tasku"));
+        Date date = new SimpleDateFormat("MM/dd/yyyy").parse(driver.findElements(By.cssSelector(".form-group-165 > td")).get(0).getText().substring(0, 10));
+        Assert.assertTrue(!driver.findElements(By.cssSelector(".form-group-165 > td")).contains(date.equals(new Date())));
+        Assert.assertTrue(driver.findElements(By.cssSelector(".form-group-167 div")).get(0).getText().equals("Task"));
+        Assert.assertTrue(driver.findElements(By.cssSelector(".form-group-169 div")).get(0).getText().equals("New"));
+        Assert.assertTrue(driver.findElements(By.cssSelector(".form-group-170 div")).get(0).getText().equals("Medium"));
         driver.executeScript("window.history.go(-1)");
-        wait = new WebDriverWait(driver, 1);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
-        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
-        cells = elements.get(1).findElements(By.tagName("td"));
-        obsah = cells.get(1).findElements(By.tagName("a"));
-        obsah.get(0).click();
-        wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
+        GeneralTestMethods.cekejCssSelector(2,".btn-xs > .fa-trash-o",driver);
+        driver.findElements(By.cssSelector(".btn-xs > .fa-trash-o")).get(0).click();
+        GeneralTestMethods.cekejClassName(2,"btn-primary-modal-action",driver);
         driver.findElement(By.className("btn-primary-modal-action")).click();
-
-        //Smazání projektu
-        driver.findElement(By.cssSelector(".fa-reorder")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
-        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
-
-        //Pomocné vymazání nic neříkajícího prvního řádku tabulky
-        elements.remove(0);
-        // Deklarace kontrolní proměné
-        WebElement radek = null;
-
-        // Cyklus prochází všechny řádky a jejich políčka
-        for (WebElement row : elements)
-        {
-            cells = row.findElements(By.tagName("td"));
-            if (cells.get(4).getText().equals("Trump2020"))
-            {
-                radek = row;
-                List<WebElement> buttony = row.findElements(By.tagName("a"));
-                buttony.get(0).click();
-            }
-        }
-        // Smazání a kontrola že už tam neni
-        wait = new WebDriverWait(driver, 3);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action"))).click();
-        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
-        Assert.assertTrue(!elements.contains(radek));
     }
 
     @Test
     public void sevenTasksCreated() {
         //Given
-        prihlasSe("rukovoditel","vse456ru");
-        vytvorProjekt("Trump2020");
+        GeneralTestMethods.prihlaseni("rukovoditel","vse456ru",driver);
+        GeneralTestMethods.novyProjekt("Trump2020",driver);
 
         //When
         for(int i = 0;i<7;i++)
         {
             driver.findElement(By.className("btn-primary")).click();
-            WebDriverWait wait = new WebDriverWait(driver, 2);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fields_168")));
-            WebElement searchInput = driver.findElement(By.id("fields_168"));
-            searchInput.sendKeys("Výběr peněz od sponzorů");
-            Select select = new Select(driver.findElement(By.id("fields_169")));
-            select.selectByIndex(i);
+            GeneralTestMethods.cekejID(3,"fields_168",driver);
+            driver.findElement(By.id("fields_168")).sendKeys("Testovací task");
+            Select vyber = new Select(driver.findElement(By.id("fields_169")));
+            vyber.selectByIndex(i);
             driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
-            driver.findElement(By.tagName("body")).sendKeys("Kontaktovat všechny sponzory a vybrat od nich peníze na kampaň");
+            driver.findElement(By.tagName("body")).sendKeys("Testovací popis tasku");
             driver.switchTo().defaultContent();
             driver.findElement(By.className("btn-primary-modal-action")).click();
         }
 
         //Then
-        // Kontrola že se zobrazují jen 3 tasky
-        WebDriverWait wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
-        List<WebElement> elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
-        Assert.assertTrue(elements.size() == 4); // 4 protože nadpis je taky řádek
-
-        // Změna filtrů na - New / Waiting
+        GeneralTestMethods.cekejCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
+        List<WebElement> elementy = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        elementy.remove(0);
+        Assert.assertTrue(elementy.size() == 3);
         driver.findElement(By.className("filters-preview-condition-include")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='chosen-choices'] a")));
-        List<WebElement> filtry = driver.findElements(By.cssSelector("[class='chosen-choices'] a"));
-        filtry.get(1).click();
+        GeneralTestMethods.cekejCssSelector(2,"[class='chosen-choices'] a",driver);
+        driver.findElements(By.cssSelector("[class='chosen-choices'] a")).get(1).click();
         driver.findElement(By.className("btn-primary-modal-action")).click();
-
-        // Kontrola že se zobrazují jen 2 tasky
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
-        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
-        Assert.assertTrue(elements.size() == 3); // 3 protože nadpis je taky řádek
-
-        // Smazání všech filtrů
-        driver.findElement(By.className("filters-preview-condition-include")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='chosen-choices'] a")));
-        filtry = driver.findElements(By.cssSelector("[class='chosen-choices'] a"));
-        filtry.get(1).click();
-        filtry.get(0).click();
-        driver.findElement(By.className("btn-primary-modal-action")).click();
-
-        // Kontrola že se zobrazuje všech 7 tasků
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
-        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
-        Assert.assertTrue(elements.size() == 8); // 8 protože nadpis je taky řádek
-
-        // Vymazání všech tasků
+        GeneralTestMethods.cekejCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
+        elementy = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
+        elementy.remove(0);
+        Assert.assertTrue(elementy.size() == 2);
+        driver.findElement(By.cssSelector("a:nth-child(2) > .fa-trash-o")).click();
+        GeneralTestMethods.cekejCssSelector(2,"[class='table table-striped table-bordered table-hover'] tr",driver);
+        Assert.assertTrue(driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")).size() == 8);
         driver.findElement(By.id("select_all_items")).click();
         driver.findElement(By.cssSelector("[class='btn btn-default dropdown-toggle']")).click();
-        driver.findElement(By.cssSelector("[class='btn btn-default dropdown-toggle']")).click(); // dvojklik
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Delete")));
+        driver.findElement(By.cssSelector("[class='btn btn-default dropdown-toggle']")).click();
+        GeneralTestMethods.cekejLinkText(2,"Delete",driver);
         driver.findElement(By.linkText("Delete")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
-        driver.findElement(By.className("btn-primary-modal-action")).click();
-
-        //Smazání projektu
-        driver.findElement(By.cssSelector(".fa-reorder")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr")));
-        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
-
-        //Pomocné vymazání nic neříkajícího prvního řádku tabulky
-        elements.remove(0);
-        // Deklarace kontrolní proměné
-        WebElement radek = null;
-
-        // Cyklus prochází všechny řádky a jejich políčka
-        for (WebElement row : elements)
-        {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            if (cells.get(4).getText().equals("Trump2020"))
-            {
-                radek = row;
-                List<WebElement> buttony = row.findElements(By.tagName("a"));
-                buttony.get(0).click();
-            }
-        }
-        // Smazání a kontrola že už tam neni
-        wait = new WebDriverWait(driver, 3);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action"))).click();
-        elements = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
-        Assert.assertTrue(!elements.contains(radek));
-    }
-
-    // Metoda kteřá řeší přihlášení
-    public void prihlasSe(String jmeno,String heslo)
-    {
-        driver.get(prefix);
-        WebElement searchInput = driver.findElement(By.name("username"));
-        searchInput.sendKeys(jmeno);
-        searchInput = driver.findElement(By.name("password"));
-        searchInput.sendKeys(heslo);
-        //searchInput.sendKeys(Keys.ENTER);
-        driver.findElement(By.cssSelector(".btn")).click();
-    }
-
-    // Metoda vytvoří projekt
-    public void vytvorProjekt(String nazev)
-    {
-        driver.findElement(By.cssSelector(".fa-reorder")).click();
-        driver.findElement(By.className("btn-primary")).click();
-        WebDriverWait wait = new WebDriverWait(driver, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("btn-primary-modal-action")));
-        driver.findElement(By.className("btn-primary-modal-action")).click();
-        WebElement searchInput = driver.findElement(By.id("fields_158"));
-        searchInput.sendKeys("Trump2020");
-        Select select = new Select(driver.findElement(By.id("fields_156")));
-        select.selectByIndex(1);
-        driver.findElement(By.id("fields_159")).click();
-        driver.findElement(By.cssSelector("td[class='active day']")).click();
+        GeneralTestMethods.cekejClassName(2,"btn-primary-modal-action",driver);
         driver.findElement(By.className("btn-primary-modal-action")).click();
     }
 }
