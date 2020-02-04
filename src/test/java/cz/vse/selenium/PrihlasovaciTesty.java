@@ -55,8 +55,8 @@ public class PrihlasovaciTesty {
         //Given
         driver.get(TestovaciMetody.getAdresa());
         //When
-        driver.findElement(By.name("username")).sendKeys("kouba");
-        driver.findElement(By.name("password")).sendKeys("heslo");
+        driver.findElement(By.name("username")).sendKeys("Donald");
+        driver.findElement(By.name("password")).sendKeys("Trump");
         driver.findElement(By.cssSelector(".btn")).click();
         //Then
         Assert.assertTrue(!driver.getTitle().contains("Dashboard"));
