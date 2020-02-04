@@ -46,7 +46,7 @@ public class TaskTest {
     public void taskCreated() throws ParseException {
         //Given
         GeneralTestMethods.login("rukovoditel","vse456ru",driver);
-        GeneralTestMethods.novyProjekt("Trump2020",driver);
+        GeneralTestMethods.newProject("Trump2020",driver);
 
         //When
         // Vytvoření tasku
@@ -81,7 +81,7 @@ public class TaskTest {
     public void sevenTasksCreated() {
         //Given
         GeneralTestMethods.login("rukovoditel","vse456ru",driver);
-        GeneralTestMethods.novyProjekt("Trump2020",driver);
+        GeneralTestMethods.newProject("Trump2020",driver);
 
         //When
         for(int i = 0;i<7;i++)

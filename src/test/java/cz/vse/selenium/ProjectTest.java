@@ -19,22 +19,22 @@ public class ProjectTest {
 
     @Before
     public void init() {
-        //System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
-        //driver = new ChromeDriver();
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
+        driver = new ChromeDriver();
         ChromeOptions cho = new ChromeOptions();
         cho.addArguments("--headless");
         cho.addArguments("start-maximized");
         cho.addArguments("window-size=1200,1100");
         cho.addArguments("--disable-gpu");
         cho.addArguments("--disable-extensions");
-        driver = new ChromeDriver(cho);
+        //driver = new ChromeDriver(cho);
         driver.manage().window().maximize();
 
     }
 
     @After
     public void tearDown() {
-        driver.close();
+        //driver.close();
     }
 
     /**
@@ -49,7 +49,7 @@ public class ProjectTest {
         //When
         driver.findElement(By.cssSelector("li:nth-child(4) .title:nth-child(2)")).click();
         driver.findElement(By.className("btn-primary")).click();
-        GeneralTestMethods.waitClassName(2,"btn-primary-modal-action",driver);
+        GeneralTestMethods.waitClassName(3,"btn-primary-modal-action",driver);
         driver.findElement(By.className("btn-primary-modal-action")).click();
 
         //Then
@@ -62,7 +62,7 @@ public class ProjectTest {
         GeneralTestMethods.login("rukovoditel","vse456ru",driver);
 
         //When
-        GeneralTestMethods.novyProjekt("Trump2020",driver);
+        GeneralTestMethods.newProject("Trump2020",driver);
 
 
         //Then
@@ -83,7 +83,8 @@ public class ProjectTest {
             }
         }
         Assert.assertTrue(element != null);
-        GeneralTestMethods.waitClassName(2,"btn-primary-modal-action",driver);
+        GeneralTestMethods.waitClassName(3,"btn-primary-modal-action",driver);
+        driver.findElement(By.id("delete_confirm")).click();
         driver.findElement(By.className("btn-primary-modal-action")).click();
         tabulka = driver.findElements(By.cssSelector("[class='table table-striped table-bordered table-hover'] tr"));
         Assert.assertTrue(!tabulka.contains(element));

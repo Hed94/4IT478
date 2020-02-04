@@ -61,12 +61,12 @@ public class GeneralTestMethods
     /**
      * Metoda vytvoři novy projekt
      */
-    public static void novyProjekt(String nazev,ChromeDriver driver)
+    public static void newProject(String name, ChromeDriver driver)
     {
         driver.findElement(By.cssSelector("li:nth-child(4) .title:nth-child(2)")).click();
         driver.findElement(By.className("btn-primary")).click();
         waitClassName(2,"btn-primary-modal-action",driver);
-        driver.findElement(By.id("fields_158")).sendKeys(nazev);
+        driver.findElement(By.id("fields_158")).sendKeys(name);
         Select vyber = new Select(driver.findElement(By.id("fields_156")));
         vyber.selectByIndex(1);
         driver.findElement(By.cssSelector(".fa-calendar")).click();
